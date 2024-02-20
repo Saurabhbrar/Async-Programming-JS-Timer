@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Timer</title>
+    <style>
+        button {
+            height: 40px;
+            width: 130px;
+            box-shadow: 0px 0px 5px;
+            background-color:  #8AAAE5;
+            color: #FFFFFF;
+            font-size: 30px;
+            margin-left: 10px;
+        }
+        input {
+            height: 40px;
+            width: 140px;
+            box-shadow: 0px 0px 5px;
+            background-color: #8AAAE5;
+            color: #FFFFFF;
+            font-size: 30px;
+        }
+
+        div {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <input type="number" id="time3" placeholder="H" min="0" max="99">
+    <input type="number" id="time2" placeholder="M" min="0" max="59">
+    <input type="number" id="time" placeholder="S" min="0" max="59">
+    <div>
+        <button id="start">Start</button>
+        <button id="stop">Pause</button>
+        <button id="reset">Reset</button>
+    </div>
+   
+</body>
+</html>
+<script>
+    let sec = document.getElementById('time');
+    let min = document.getElementById('time2');
+    let hour = document.getElementById('time3');
+    let startBtn = document.getElementById('start');
+    let pauseBtn = document.getElementById('stop');
+    let resetBtn = document.getElementById('reset');
+    let timer;
+
+    function startTimer() {
+        timer = setInterval(function(){
+            if (sec.value >= 1) {
+                sec.value--;
+            } else {
+                if (min.value >= 1) {
+                    sec.value = 59;
+                    min.value--;
+                } else {
+                    if (hour.value >= 1) {
+                        sec.value = 59;
+                        min.value = 59;
+                        hour.value--;
+                    } else {
+                        clearInterval(timer);
+                        alert('Timer ended!');
+                    }
+                }
+            }
+        }, 1000);
+    }
+
+    startBtn.addEventListener('click', function() {
+        if (sec.value > 60 || min.value > 59 || hour.value > 99) {
+            alert("Enter values within the valid range.");
+        } else {
+            startTimer();
+            startBtn.disabled = true;
+        }
+    });
+
+    pauseBtn.addEventListener('click', function() {
+        clearInterval(timer);
+        startBtn.disabled = false;
+    });
+
+    resetBtn.addEventListener('click', function() {
+        clearInterval(timer);
+        sec.value = null;
+        min.value = null;
+        hour.value = null;
+        startBtn.disabled = false;
+    });
+</script>
